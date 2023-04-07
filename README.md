@@ -7,7 +7,7 @@ Changes made:
 4. image column only stores name of the file not the file itself. (file stored in webapp/img/dishes)
 5. Made new .sql file and saved it here for our use-case.
 
-important: insert sql file to database named springproject in myphpadmin
+important: import sql file to database named springproject in myphpadmin
 
 Running it on vs code:
 1. open folder in vs code.
