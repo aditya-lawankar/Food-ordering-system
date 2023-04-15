@@ -150,7 +150,7 @@ body,html{width:100%;height:100%;}
             <td>
                 <form action="deleteCart" method="post">
                     <input type="hidden" name="id" value="<%= rs.getInt(1) %>">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-dange rstyle="background-color:red"">Delete</button>
                 </form>
             </td>
         </tr> 
