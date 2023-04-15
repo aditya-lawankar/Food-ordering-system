@@ -50,7 +50,7 @@
 				<div class="col-sm-5">
 					<%
 					try {
-						String url = "jdbc:mysql://localhost:4306/springproject";
+						String url = "jdbc:mysql://localhost:3306/springproject";
 						Class.forName("com.mysql.cj.jdbc.Driver");
 						Connection con = DriverManager.getConnection(url, "root", "");
 						Statement stmt = con.createStatement();
@@ -99,18 +99,26 @@
 						<input type="number" class="form-control border border-warning" required name="price" min="1" placeholder="Price">
 					</div>
 					<div class="form-group">
-						<label for="weight">Weight in grams</label> 
-						<input type="number" class="form-control border border-warning" required name="weight" min="1" placeholder="Weight">
+						<label for="weight">Calories</label> 
+						<input type="number" class="form-control border border-warning" required name="weight" min="1" placeholder="Calories">
 					</div>
 					<div class="form-group">
 						<label for="weight">Available Quantity</label> 
 						<input type="number" class="form-control border border-warning" required name="quantity" min="1" placeholder="Quantity">
 					</div>
-					
+				
 					
 				</div>
 				
-				<div class="col-sm-5"><br>
+				<div class="col-sm-5">
+					<div class="form-group">
+						<label for="course">Course</label> 
+						<input type="text" class="form-control border border-warning" required name="course"  placeholder="Course">
+					</div>
+					<div class="form-group">
+						<label for="diet">Diet</label> 
+						<input type="text" class="form-control border border-warning" required name="diet"  placeholder="Diet">
+					</div>
 				<div class="form-group">
 						<label for="description">Product Description</label>
 						<textarea class="form-control border border-warning" rows="4" name="description" placeholder="Product Details" value= "no product details"></textarea>
@@ -121,12 +129,9 @@
 						<label class="custom-file-label border border-warning" for="productImage">Choose file</label>
 						
 					</div>
-					<div class="form-group">
-						<img src="Product Images/one.jpg" alt="Hello" id="imgPreview" height="100px" width="100px"
-							style="margin-top: 20px" >
-					</div>
+		
 					<input type="hidden" name="imgName">
-					<input type="submit" class="btn btn-primary">
+					<input type="submit" class="btn btn-primary" style="margin-top: 2rem;">
 				</div>
 			</div>
 		</form>

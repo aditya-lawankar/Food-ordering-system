@@ -121,7 +121,7 @@ body,html{width:100%;height:100%;}
 
 </style>
 <div class="container-fluid">
-  <form action="/user/products" method="get">
+  <form action="/index" method="get">
     <div class="form-row">
       <div class="form-group col-md-4">
         <input type="text" class="form-control" name="search" placeholder="Search by dish name" value="${param.search}" />
@@ -162,7 +162,7 @@ body,html{width:100%;height:100%;}
     <tbody>
       <%
       try {
-        String url = "jdbc:mysql://localhost:4306/springproject";
+        String url = "jdbc:mysql://localhost:3306/springproject";
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection(url, "root", "");
         Statement stmt = con.createStatement();

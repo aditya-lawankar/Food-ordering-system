@@ -111,7 +111,7 @@
               />
             </div>
             <div class="form-group">
-              <label for="weight">Weight in grams</label>
+              <label for="weight">Calories</label>
               <input
                 type="number"
                 class="form-control border border-success"
@@ -119,7 +119,7 @@
                 name="weight"
                 value="${ pweight }"
                 min="1"
-                placeholder="Weight"
+                placeholder="Calories"
               />
             </div>
             <div class="form-group">
@@ -137,6 +137,28 @@
           </div>
 
           <div class="col-sm-5">
+            <div class="form-group">
+              <label for="course">Course</label>
+              <input
+                type="text"
+                class="form-control border border-success"
+                required
+                name="course"
+                value="${pcourse }"
+                placeholder="Enter course"
+              />
+            </div>
+            <div class="form-group">
+              <label for="diet">Diet</label>
+              <input
+                type="text"
+                class="form-control border border-success"
+                required
+                name="diet"
+                value="${pdiet }"
+                placeholder="Enter diet"
+              />
+            </div>
             <div class="form-group">
               <label for="description">Product Description</label>
               <textarea
@@ -169,16 +191,6 @@
                   image.src = URL.createObjectURL(event.target.files[0]);
                 };
               </script>
-            </div>
-            <div class="form-group">
-              <img
-                src="#"
-                id="imgPreview"
-                height="100px"
-                width="100px"
-                style="margin-top: 20px"
-                alt=" "
-              />
             </div>
             <input type="hidden" name="imgName" />
             <input

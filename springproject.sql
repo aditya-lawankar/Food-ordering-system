@@ -2,7 +2,7 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:4306
+-- Host: localhost:3306
 -- Generation Time: Apr 07, 2023 at 02:45 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
@@ -134,7 +134,7 @@ CREATE TABLE `cart`(
 INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `enabled`, `email`) VALUES
 (1, 'jay', '123', 'ROLE_USER', 1, 'gajerajay9@gmail.com'),
 (2, 'admin', '123', 'ROLE_ADMIN', 1, 'admin@email.com'),
-(3, 'aditya', 'Qwerty@123', 'ROLE_USERS', 1, 'aditya@gmail.com');
+(3, 'aditya', 'Qwerty@123', 'ROLE_USERS', 1, 'aditya@gmail.com'),
 (4,'aarav','happyhappyhappy','ROLE_USERS',1,'aaravbabu2002@gmail.com');
 
 --

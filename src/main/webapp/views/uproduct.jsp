@@ -71,7 +71,7 @@ import="java.text.*"%>
         </tr>
         <tbody>
           <tr>
-            <% try { String url = "jdbc:mysql://localhost:4306/springproject";
+            <% try { String url = "jdbc:mysql://localhost:3306/springproject";
             Class.forName("com.mysql.cj.jdbc.Driver"); Connection con =
             DriverManager.getConnection(url, "root", ""); Statement stmt =
             con.createStatement(); Statement stmt2 = con.createStatement();

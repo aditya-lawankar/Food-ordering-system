@@ -43,7 +43,7 @@ public class AdminController {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 			Statement stmt = con.createStatement();
 			Statement stmt2 = con.createStatement();
 			ResultSet rst = stmt.executeQuery(
@@ -106,7 +106,7 @@ public class AdminController {
 	public String addcategorytodb(@RequestParam("categoryname") String catname) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 			Statement stmt = con.createStatement();
 
 			PreparedStatement pst = con.prepareStatement("insert into categories(name) values(?);");
@@ -123,7 +123,7 @@ public class AdminController {
 	public String removeCategoryDb(@RequestParam("id") int id) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 			Statement stmt = con.createStatement();
 
 			PreparedStatement pst = con.prepareStatement("delete from categories where categoryid = ? ;");
@@ -141,7 +141,7 @@ public class AdminController {
 			@RequestParam("categoryname") String categoryname) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 			Statement stmt = con.createStatement();
 
 			PreparedStatement pst = con.prepareStatement("update categories set name = ? where categoryid = ?");
@@ -167,11 +167,11 @@ public class AdminController {
 
 	@GetMapping("/admin/products/update")
 	public String updateproduct(@RequestParam("pid") int id, Model model) {
-		String pname, pdescription, pimage;
+		String pname, pdescription, pimage, pcourse, pdiet;
 		int pid, pprice, pweight, pquantity, pcategory;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 			Statement stmt = con.createStatement();
 			Statement stmt2 = con.createStatement();
 			ResultSet rst = stmt.executeQuery("select * from products where id = " + id + ";");
@@ -185,6 +185,8 @@ public class AdminController {
 				pprice = rst.getInt(6);
 				pweight = rst.getInt(7);
 				pdescription = rst.getString(8);
+				pcourse = rst.getString(9);
+				pdiet = rst.getString(10);
 				model.addAttribute("pid", pid);
 				model.addAttribute("pname", pname);
 				model.addAttribute("pimage", pimage);
@@ -196,6 +198,8 @@ public class AdminController {
 				model.addAttribute("pprice", pprice);
 				model.addAttribute("pweight", pweight);
 				model.addAttribute("pdescription", pdescription);
+				model.addAttribute("pcourse", pcourse);
+				model.addAttribute("pdiet", pdiet);
 			}
 		} catch (Exception e) {
 			System.out.println("Exception:" + e);
@@ -207,22 +211,25 @@ public class AdminController {
 	public String updateproducttodb(@RequestParam("id") int id, @RequestParam("name") String name,
 			@RequestParam("price") int price, @RequestParam("weight") int weight,
 			@RequestParam("quantity") int quantity, @RequestParam("description") String description,
-			@RequestParam("productImage") String picture)
+			@RequestParam("productImage") String picture, @RequestParam("course") String course,
+			@RequestParam("diet") String diet)
 
 	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 
 			PreparedStatement pst = con.prepareStatement(
-					"update products set name= ?,image = ?,quantity = ?, price = ?, weight = ?,description = ? where id = ?;");
+					"update products set name= ?,image = ?,quantity = ?, price = ?, weight = ?,description = ?,course = ?,diet = ? where id = ?;");
 			pst.setString(1, name);
 			pst.setString(2, picture);
 			pst.setInt(3, quantity);
 			pst.setInt(4, price);
 			pst.setInt(5, weight);
 			pst.setString(6, description);
-			pst.setInt(7, id);
+			pst.setString(7, course);
+			pst.setString(8, diet);
+			pst.setInt(9, id);
 			int i = pst.executeUpdate();
 		} catch (Exception e) {
 			System.out.println("Exception:" + e);
@@ -234,7 +241,7 @@ public class AdminController {
 	public String removeProductDb(@RequestParam("id") int id) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 
 			PreparedStatement pst = con.prepareStatement("delete from products where id = ? ;");
 			pst.setInt(1, id);
@@ -255,17 +262,18 @@ public class AdminController {
 	public String addproducttodb(@RequestParam("name") String name, @RequestParam("categoryid") String catid,
 			@RequestParam("price") int price, @RequestParam("weight") int weight,
 			@RequestParam("quantity") int quantity, @RequestParam("description") String description,
-			@RequestParam("productImage") String picture) {
+			@RequestParam("productImage") String picture, @RequestParam("course") String course,
+			@RequestParam("diet") String diet) {
 
 		try {
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("select * from categories where name = '" + catid + "';");
 			if (rs.next()) {
 				int categoryid = rs.getInt(1);
 
 				PreparedStatement pst = con.prepareStatement(
-						"insert into products(name,image,categoryid,quantity,price,weight,description) values(?,?,?,?,?,?,?);");
+						"insert into products(name,image,categoryid,quantity,price,weight,description,course,diet) values(?,?,?,?,?,?,?,?,?);");
 				pst.setString(1, name);
 				pst.setString(2, picture);
 				pst.setInt(3, categoryid);
@@ -273,6 +281,8 @@ public class AdminController {
 				pst.setInt(5, price);
 				pst.setInt(6, weight);
 				pst.setString(7, description);
+				pst.setString(8, course);
+				pst.setString(9, diet);
 				int i = pst.executeUpdate();
 			}
 		} catch (Exception e) {
@@ -291,7 +301,7 @@ public class AdminController {
 		String displayusername, displaypassword, displayemail, displayaddress;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 			Statement stmt = con.createStatement();
 			ResultSet rst = stmt.executeQuery("select * from users where username = '" + usernameforclass + "';");
 
@@ -319,7 +329,7 @@ public class AdminController {
 		String displayusername, displaypassword, displayemail, displayaddress;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 			Statement stmt = con.createStatement();
 			ResultSet rst = stmt.executeQuery("select * from users where username = '" + usernameforclass + "';");
 
@@ -350,7 +360,7 @@ public class AdminController {
 	{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:4306/springproject", "root", "");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 
 			PreparedStatement pst = con
 					.prepareStatement("update users set username= ?,email = ?,password= ?, address= ? where uid = ?;");

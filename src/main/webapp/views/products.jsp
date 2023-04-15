@@ -80,24 +80,21 @@ import=" java.io.ObjectOutputStream" %>
         </tr>
         <tbody>
           <tr>
-            <% try { String url = "jdbc:mysql://localhost:4306/springproject";
-            Class.forName("com.mysql.cj.jdbc.Driver"); Connection con =
-            DriverManager.getConnection(url, "root", ""); Statement stmt =
-            con.createStatement(); Statement stmt2 = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from products"); %> <%
+            <% try { String url = "jdbc:mysql://localhost:3306/springproject";
+            Class.forName("com.mysql.cj.jdbc.Driver"); 
+            Connection con = DriverManager.getConnection(url, "root", ""); 
+            Statement stmt = con.createStatement(); 
+            Statement stmt2 = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from products");
             while (rs.next()) { %>
             <td><%= rs.getInt(1) %></td>
             <td><%= rs.getString(2) %></td>
             <td>
-              <% 
-                 int categoryid = rs.getInt(4); 
-                 ResultSet rs2 = stmt2.executeQuery("select * from categories where categoryid = "+categoryid+";"); 
-                 if(rs2.next()) { 
-                    out.print(rs2.getString(2)); 
-                 } 
+              <% int categoryid = rs.getInt(4); 
+              ResultSet rs2 = stmt2.executeQuery("select * from categories where categoryid = "+categoryid+";"); 
+              if(rs2.next()) { out.print(rs2.getString(2)); }
               %>
-           </td>
-           
+            </td>
 
             <td>
               <img

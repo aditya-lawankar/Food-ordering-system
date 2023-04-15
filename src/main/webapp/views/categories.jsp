@@ -138,10 +138,12 @@
           </tr>
         </thead>
         <tbody>
-          <% try { String url = "jdbc:mysql://localhost:4306/springproject";
-          Class.forName("com.mysql.cj.jdbc.Driver"); Connection con =
-          DriverManager.getConnection(url, "root", ""); Statement stmt =
-          con.createStatement(); ResultSet rs = stmt.executeQuery("select * from categories;"); %> <% while (rs.next()) { %>
+          <% try { String url = "jdbc:mysql://localhost:3306/springproject";
+          Class.forName("com.mysql.cj.jdbc.Driver"); 
+          Connection con = DriverManager.getConnection(url, "root", ""); 
+          Statement stmt = con.createStatement(); 
+          ResultSet rs = stmt.executeQuery("select * from categories;"); 
+          while (rs.next()) { %>
           <tr>
             <td><%=rs.getInt(1)%></td>
             <td><%=rs.getString(2)%></td>

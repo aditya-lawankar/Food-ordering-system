@@ -131,7 +131,7 @@ body,html{width:100%;height:100%;}
     <tbody>
       <%
       try {
-        String url = "jdbc:mysql://localhost:4306/springproject";
+        String url = "jdbc:mysql://localhost:3306/springproject";
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection(url, "root", ""); 
         String query = "SELECT * FROM cart"; 
