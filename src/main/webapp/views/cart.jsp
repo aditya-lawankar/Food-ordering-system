@@ -120,115 +120,56 @@ body,html{width:100%;height:100%;}
 }
 
 </style>
-<div class="container-fluid">
-  <form action="/user/products" method="get">
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <input type="text" class="form-control" name="search" placeholder="Search by dish name" value="${param.search}" />
-      </div>
-      <div class="form-group col-md-3">
-        <select class="form-control" name="course">
-          <option value="">--Filter by course--</option>
-          <option value="starters" ${param.course == 'starters' ? 'selected' : ''}>Starters</option>
-          <option value="mains" ${param.course == 'mains' ? 'selected' : ''}>Mains</option>
-          <option value="desserts" ${param.course == 'desserts' ? 'selected' : ''}>Desserts</option>
-        </select>
-      </div>
-      <div class="form-group col-md-3">
-        <select class="form-control" name="diet">
-          <option value="">--Filter by dietary restriction--</option>
-          <option value="veg" ${param.diet == 'veg' ? 'selected' : ''}>Veg</option>
-          <option value="non-veg" ${param.diet == 'non-veg' ? 'selected' : ''}>Non-Veg</option>
-        </select>
-      </div>
-      <div class="form-group col-md-2">
-        <button type="submit" class="btn btn-primary">Search</button>
-      </div>
-    </div>
-  </form>
-
-  <table class="table" style="border-top: 2px solid #dee2e6;">
+    <div class="container-fluid">
+    <table class="table" style="border-top: 2px solid #dee2e6;">
     <tr>
       <th scope="col">Dish</th>
-      <th scope="col">Cuisine</th>
-      <th scope="col">Course</th>
-      <th scope="col">Preview</th>
-      <th scope="col">Diet</th>
-      <th scope="col">Description</th>
-      <th scope="col">Calories</th>
+      <th scope="col">Quantity</th>
       <th scope="col">Price</th>
-      <th scope="col">Buy</th>
+      <th scope="col">Total Price</th>
     </tr>
     <tbody>
       <%
       try {
         String url = "jdbc:mysql://localhost:4306/springproject";
         Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection(url, "root", "");
+        Connection con = DriverManager.getConnection(url, "root", ""); 
+        String query = "SELECT * FROM cart"; 
+        String query2 = "SELECT SUM(tot_price) FROM cart";
         Statement stmt = con.createStatement();
         Statement stmt2 = con.createStatement();
-        String search = request.getParameter("search");
-        String course = request.getParameter("course");
-        String diet = request.getParameter("diet");
-        String query = "SELECT * FROM products";
-        
-        if (search != null && !search.isEmpty()) {
-          query += " WHERE name LIKE '%" + search + "%'";
-        }
-        
-        if (course != null && !course.isEmpty()) {
-          if (search != null && !search.isEmpty()) {
-            query += " AND course = '" + course + "'";
-          } else {
-            query += " WHERE course = '" + course + "'";
-          }
-        }
-        
-        if (diet != null && !diet.isEmpty()) {
-          if (search != null && !search.isEmpty() || course != null && !course.isEmpty()) {
-            query += " AND diet = '" + diet + "'";
-          } else {
-            query += " WHERE diet = '" + diet + "'";
-          }
-        }
-        
         ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {        
       %>
-      <tr>
-        <td><%= rs.getString(2) %></td> <!--COL: name (dish)-->
-        <td>
-          <% int categoryId = rs.getInt(4); 
-          ResultSet rs2 = stmt2.executeQuery("SELECT * FROM categories WHERE categoryid = " + categoryId);
-          if(rs2.next()) { 
-            out.print(rs2.getString(2)); 
-          } %>
-        </td>
-        <td><%= rs.getString(9) %></td> <!--COL: Course (Category)-->
-        <td><!--COL: image (Preview)-->
-          <img src="../img/dishes/<%= rs.getString(3) %>" height="150px" width="150px" />
-        </td>
-        <td><%= rs.getString(10) %></td> <!--COL: Diet-->
-        <td style="text-align: left"><%= rs.getString(8) %></td> <!--COL: Description-->
-        <td><%= rs.getInt(7) %></td> <!--COL: Weight (Calories)-->
-        <td><%= rs.getInt(6) %></td> <!--COL: Price -->
-        <td>
-        <form action="cartentry" method="post">
-          <input type="hidden" name="id" id="id" value="<%=rs.getInt(1)%>" />
-          <input type="hidden" name="dish" id="dish" value="<%=rs.getString(2)%>" />
-          <input type="hidden" name="price" id="price" value="<%= rs.getInt(6) %>"/>
-          <input type="number" name="quantity" id="quantity" value="1" min="1" max="10" />
-          <input type="submit" value="Add to Cart" class="btn btn-info btn" />
-        </form>
-      </td>
-    </tr>
-    <% } %>
-  </tbody>
-</table>
-<% } catch (Exception ex) { out.println("Exception Occurred:: " +
-ex.getMessage()); } %>
-</div>
-	<style>
+        <tr>
+            <td><%= rs.getString(2) %></td> <!--COL: name (dish)-->
+            <td><%= rs.getInt(3) %></td> <!--COL: Price -->
+            <td><%= rs.getInt(4) %></td> <!--COL: Quantity -->
+            <td><%= rs.getInt(5) %></td> <!--COL: Total Price -->
+            
+            <td>
+                <form action="deleteCart" method="post">
+                    <input type="hidden" name="id" value="<%= rs.getInt(1) %>">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr> 
+        <% } %>     
+    </tbody>
+  </table>
+  <%
+            try{
+            ResultSet rs2 = stmt2.executeQuery(query2);
+            while (rs2.next()) {
+            %>
+            Total Bill Amount: <%= rs2.getInt(1) %> <!--COL: Total Price -->
+            <% } %>  
+            <% } catch (Exception ex) { out.println("Exception Occurred:: " +
+            ex.getMessage()); } %>
+  <% } catch (Exception ex) { out.println("Exception Occurred:: " +
+  ex.getMessage()); } %>
+  </div>
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Arimo&display=swap');

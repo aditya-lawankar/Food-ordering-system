@@ -138,7 +138,7 @@
           </tr>
         </thead>
         <tbody>
-          <% try { String url = "jdbc:mysql://localhost:3306/springproject";
+          <% try { String url = "jdbc:mysql://localhost:4306/springproject";
           Class.forName("com.mysql.cj.jdbc.Driver"); Connection con =
           DriverManager.getConnection(url, "root", ""); Statement stmt =
           con.createStatement(); ResultSet rs = stmt.executeQuery("select * from categories;"); %> <% while (rs.next()) { %>
