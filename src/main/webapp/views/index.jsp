@@ -218,7 +218,7 @@ body,html{width:100%;height:100%;}
           <input type="hidden" name="dish" id="dish" value="<%=rs.getString(2)%>" />
           <input type="hidden" name="price" id="price" value="<%= rs.getInt(6) %>"/>
           <input type="number" name="quantity" id="quantity" value="1" min="1" max="10" />
-          <input type="submit" value="Add to Cart" class="btn btn-info btn" />
+          <input type="submit" value="Add to Cart" class="btn btn-info btn m-3" />
         </form>
       </td>
     </tr>
