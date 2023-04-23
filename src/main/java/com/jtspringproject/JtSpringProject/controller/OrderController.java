@@ -1,7 +1,5 @@
 package com.jtspringproject.JtSpringProject.controller;
 
-
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-
-
 
 @Controller
 @RequestMapping("/orders")
@@ -30,25 +26,25 @@ public class OrderController {
     private String orderId = "";
 
     @GetMapping
-    public String orderPage(Model model){
-        model.addAttribute("orderId",orderId);
+    public String orderPage(Model model) {
+        model.addAttribute("orderId", orderId);
         return "order";
     }
 
     @GetMapping("/capture")
-    public String captureOrder(@RequestParam String token){
-        //FIXME(Never Do this either put it in proper scope or in DB)
+    public String captureOrder(@RequestParam String token) {
+        // FIXME(Never Do this either put it in proper scope or in DB)
         orderId = token;
         paymentService.captureOrder(token);
         return "redirect:/orders";
     }
 
     @PostMapping
-    public String placeOrder(@RequestParam Double totalAmount, HttpServletRequest request){
+    public String placeOrder(@RequestParam Double totalAmount, HttpServletRequest request) {
         final URI returnUrl = buildReturnUrl(request);
         totalAmount = totalAmount * 0.012;
         CreatedOrder createdOrder = paymentService.createOrder(totalAmount, returnUrl);
-        return "redirect:"+createdOrder.getApprovalLink();
+        return "redirect:" + createdOrder.getApprovalLink();
     }
 
     private URI buildReturnUrl(HttpServletRequest request) {
