@@ -13,6 +13,23 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class UserController {
 
+	private static UserController instance = null;
+
+	private UserController() {
+		// private constructor to prevent instance creation from outside
+	}
+
+	public static UserController getInstance() {
+		if (instance == null) {
+			synchronized (UserController.class) {
+				if (instance == null) {
+					instance = new UserController();
+				}
+			}
+		}
+		return instance;
+	}
+
 	@GetMapping("/register")
 	public String registerUser() {
 		return "register";
@@ -27,11 +44,6 @@ public class UserController {
 	public String buy() {
 		return "buy";
 	}
-
-	// @GetMapping("/user/products")
-	// public String getproduct(Model model) {
-	// return "index";
-	// }
 
 	@GetMapping("/Cart")
 	public String cart() {
