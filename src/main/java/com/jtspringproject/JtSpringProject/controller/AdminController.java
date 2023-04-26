@@ -45,10 +45,18 @@ public class AdminController {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 			Statement stmt = con.createStatement();
+<<<<<<< HEAD
+=======
+			Statement stmt2 = con.createStatement();
+>>>>>>> final
 			ResultSet rst = stmt.executeQuery(
 					"select * from users where username = '" + username + "' and password = '" + pass + "' ;");
 			if (rst.next()) {
 				usernameforclass = rst.getString(2);
+<<<<<<< HEAD
+=======
+				stmt2.executeUpdate("delete from cart");
+>>>>>>> final
 				return "redirect:/index";
 			} else {
 				model.addAttribute("message", "Invalid Username or Password");
@@ -165,7 +173,11 @@ public class AdminController {
 
 	@GetMapping("/admin/products/update")
 	public String updateproduct(@RequestParam("pid") int id, Model model) {
+<<<<<<< HEAD
 		String pname, pdescription, pimage;
+=======
+		String pname, pdescription, pimage, pcourse, pdiet;
+>>>>>>> final
 		int pid, pprice, pweight, pquantity, pcategory;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -183,6 +195,11 @@ public class AdminController {
 				pprice = rst.getInt(6);
 				pweight = rst.getInt(7);
 				pdescription = rst.getString(8);
+<<<<<<< HEAD
+=======
+				pcourse = rst.getString(9);
+				pdiet = rst.getString(10);
+>>>>>>> final
 				model.addAttribute("pid", pid);
 				model.addAttribute("pname", pname);
 				model.addAttribute("pimage", pimage);
@@ -194,6 +211,11 @@ public class AdminController {
 				model.addAttribute("pprice", pprice);
 				model.addAttribute("pweight", pweight);
 				model.addAttribute("pdescription", pdescription);
+<<<<<<< HEAD
+=======
+				model.addAttribute("pcourse", pcourse);
+				model.addAttribute("pdiet", pdiet);
+>>>>>>> final
 			}
 		} catch (Exception e) {
 			System.out.println("Exception:" + e);
@@ -205,7 +227,12 @@ public class AdminController {
 	public String updateproducttodb(@RequestParam("id") int id, @RequestParam("name") String name,
 			@RequestParam("price") int price, @RequestParam("weight") int weight,
 			@RequestParam("quantity") int quantity, @RequestParam("description") String description,
+<<<<<<< HEAD
 			@RequestParam("productImage") String picture)
+=======
+			@RequestParam("productImage") String picture, @RequestParam("course") String course,
+			@RequestParam("diet") String diet)
+>>>>>>> final
 
 	{
 		try {
@@ -213,14 +240,24 @@ public class AdminController {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 
 			PreparedStatement pst = con.prepareStatement(
+<<<<<<< HEAD
 					"update products set name= ?,image = ?,quantity = ?, price = ?, weight = ?,description = ? where id = ?;");
+=======
+					"update products set name= ?,image = ?,quantity = ?, price = ?, weight = ?,description = ?,course = ?,diet = ? where id = ?;");
+>>>>>>> final
 			pst.setString(1, name);
 			pst.setString(2, picture);
 			pst.setInt(3, quantity);
 			pst.setInt(4, price);
 			pst.setInt(5, weight);
 			pst.setString(6, description);
+<<<<<<< HEAD
 			pst.setInt(7, id);
+=======
+			pst.setString(7, course);
+			pst.setString(8, diet);
+			pst.setInt(9, id);
+>>>>>>> final
 			int i = pst.executeUpdate();
 		} catch (Exception e) {
 			System.out.println("Exception:" + e);
@@ -253,7 +290,12 @@ public class AdminController {
 	public String addproducttodb(@RequestParam("name") String name, @RequestParam("categoryid") String catid,
 			@RequestParam("price") int price, @RequestParam("weight") int weight,
 			@RequestParam("quantity") int quantity, @RequestParam("description") String description,
+<<<<<<< HEAD
 			@RequestParam("productImage") String picture) {
+=======
+			@RequestParam("productImage") String picture, @RequestParam("course") String course,
+			@RequestParam("diet") String diet) {
+>>>>>>> final
 
 		try {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
@@ -263,7 +305,11 @@ public class AdminController {
 				int categoryid = rs.getInt(1);
 
 				PreparedStatement pst = con.prepareStatement(
+<<<<<<< HEAD
 						"insert into products(name,image,categoryid,quantity,price,weight,description) values(?,?,?,?,?,?,?);");
+=======
+						"insert into products(name,image,categoryid,quantity,price,weight,description,course,diet) values(?,?,?,?,?,?,?,?,?);");
+>>>>>>> final
 				pst.setString(1, name);
 				pst.setString(2, picture);
 				pst.setInt(3, categoryid);
@@ -271,6 +317,11 @@ public class AdminController {
 				pst.setInt(5, price);
 				pst.setInt(6, weight);
 				pst.setString(7, description);
+<<<<<<< HEAD
+=======
+				pst.setString(8, course);
+				pst.setString(9, diet);
+>>>>>>> final
 				int i = pst.executeUpdate();
 			}
 		} catch (Exception e) {

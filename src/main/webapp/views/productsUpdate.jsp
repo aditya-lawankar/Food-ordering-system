@@ -111,7 +111,11 @@
               />
             </div>
             <div class="form-group">
+<<<<<<< HEAD
               <label for="weight">Weight in grams</label>
+=======
+              <label for="weight">Calories</label>
+>>>>>>> final
               <input
                 type="number"
                 class="form-control border border-success"
@@ -119,7 +123,11 @@
                 name="weight"
                 value="${ pweight }"
                 min="1"
+<<<<<<< HEAD
                 placeholder="Weight"
+=======
+                placeholder="Calories"
+>>>>>>> final
               />
             </div>
             <div class="form-group">
@@ -138,6 +146,31 @@
 
           <div class="col-sm-5">
             <div class="form-group">
+<<<<<<< HEAD
+=======
+              <label for="course">Course</label>
+              <input
+                type="text"
+                class="form-control border border-success"
+                required
+                name="course"
+                value="${pcourse }"
+                placeholder="Enter course"
+              />
+            </div>
+            <div class="form-group">
+              <label for="diet">Diet</label>
+              <input
+                type="text"
+                class="form-control border border-success"
+                required
+                name="diet"
+                value="${pdiet }"
+                placeholder="Enter diet"
+              />
+            </div>
+            <div class="form-group">
+>>>>>>> final
               <label for="description">Product Description</label>
               <textarea
                 class="form-control border border-success"
@@ -170,6 +203,7 @@
                 };
               </script>
             </div>
+<<<<<<< HEAD
             <div class="form-group">
               <img
                 src="#"
@@ -180,6 +214,8 @@
                 alt=" "
               />
             </div>
+=======
+>>>>>>> final
             <input type="hidden" name="imgName" />
             <input
               type="submit"

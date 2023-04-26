@@ -139,9 +139,17 @@
         </thead>
         <tbody>
           <% try { String url = "jdbc:mysql://localhost:3306/springproject";
+<<<<<<< HEAD
           Class.forName("com.mysql.cj.jdbc.Driver"); Connection con =
           DriverManager.getConnection(url, "root", ""); Statement stmt =
           con.createStatement(); ResultSet rs = stmt.executeQuery("select * from categories;"); %> <% while (rs.next()) { %>
+=======
+          Class.forName("com.mysql.cj.jdbc.Driver"); 
+          Connection con = DriverManager.getConnection(url, "root", ""); 
+          Statement stmt = con.createStatement(); 
+          ResultSet rs = stmt.executeQuery("select * from categories;"); 
+          while (rs.next()) { %>
+>>>>>>> final
           <tr>
             <td><%=rs.getInt(1)%></td>
             <td><%=rs.getString(2)%></td>

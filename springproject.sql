@@ -113,6 +113,23 @@ CREATE TABLE `users` (
   `email` varchar(110) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+<<<<<<< HEAD
+=======
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart`(
+  `id` int(11) NOT NULL,
+  `dish` varchar(255) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `tot_price` int(11) NOT NULL
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+>>>>>>> final
 --
 -- Dumping data for table `users`
 --
@@ -120,7 +137,12 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `enabled`, `email`) VALUES
 (1, 'jay', '123', 'ROLE_USER', 1, 'gajerajay9@gmail.com'),
 (2, 'admin', '123', 'ROLE_ADMIN', 1, 'admin@email.com'),
+<<<<<<< HEAD
 (3, 'aditya', 'Qwerty@123', 'ROLE_USERS', 1, 'aditya@gmail.com');
+=======
+(3, 'aditya', 'Qwerty@123', 'ROLE_USERS', 1, 'aditya@gmail.com'),
+(4,'aarav','happyhappyhappy','ROLE_USERS',1,'aaravbabu2002@gmail.com');
+>>>>>>> final
 
 --
 -- Indexes for dumped tables

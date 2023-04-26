@@ -36,15 +36,9 @@ import="java.text.*"%>
          
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
-<<<<<<< HEAD
-                <!-- <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/}" href="index">Home</a>
-                </li> -->
-=======
                 <li class="nav-item active">
                     <a class="nav-link" sec:authorize="isAuthenticated()" href="Cart">Cart</a>
                 </li>
->>>>>>> final
                  <li class="nav-item active">
                     <a class="nav-link" href="profileDisplay" >Profile</a>
                 </li>
@@ -126,172 +120,94 @@ body,html{width:100%;height:100%;}
 }
 
 </style>
+    
 <div class="container-fluid">
-<<<<<<< HEAD
-  <form action="/user/products" method="get">
-=======
-  <form action="/index" method="get">
->>>>>>> final
-    <div class="form-row">
-      <div class="form-group col-md-4">
-        <input type="text" class="form-control" name="search" placeholder="Search by dish name" value="${param.search}" />
-      </div>
-      <div class="form-group col-md-3">
-        <select class="form-control" name="course">
-          <option value="">--Filter by course--</option>
-          <option value="starters" ${param.course == 'starters' ? 'selected' : ''}>Starters</option>
-          <option value="mains" ${param.course == 'mains' ? 'selected' : ''}>Mains</option>
-          <option value="desserts" ${param.course == 'desserts' ? 'selected' : ''}>Desserts</option>
-        </select>
-      </div>
-      <div class="form-group col-md-3">
-        <select class="form-control" name="diet">
-          <option value="">--Filter by dietary restriction--</option>
-          <option value="veg" ${param.diet == 'veg' ? 'selected' : ''}>Veg</option>
-          <option value="non-veg" ${param.diet == 'non-veg' ? 'selected' : ''}>Non-Veg</option>
-        </select>
-      </div>
-      <div class="form-group col-md-2">
-        <button type="submit" class="btn btn-primary">Search</button>
-      </div>
-    </div>
-  </form>
-
   <table class="table" style="border-top: 2px solid #dee2e6;">
-    <tr>
-      <th scope="col">Dish</th>
-      <th scope="col">Cuisine</th>
-      <th scope="col">Course</th>
-      <th scope="col">Preview</th>
-      <th scope="col">Diet</th>
-      <th scope="col">Description</th>
-      <th scope="col">Calories</th>
-      <th scope="col">Price</th>
-      <th scope="col">Buy</th>
-    </tr>
-    <tbody>
-      <%
-      try {
-        String url = "jdbc:mysql://localhost:3306/springproject";
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        Connection con = DriverManager.getConnection(url, "root", "");
-        Statement stmt = con.createStatement();
-        Statement stmt2 = con.createStatement();
-        String search = request.getParameter("search");
-        String course = request.getParameter("course");
-        String diet = request.getParameter("diet");
-        String query = "SELECT * FROM products";
-        
-        if (search != null && !search.isEmpty()) {
-          query += " WHERE name LIKE '%" + search + "%'";
-        }
-        
-        if (course != null && !course.isEmpty()) {
-          if (search != null && !search.isEmpty()) {
-            query += " AND course = '" + course + "'";
-          } else {
-            query += " WHERE course = '" + course + "'";
-          }
-        }
-        
-        if (diet != null && !diet.isEmpty()) {
-          if (search != null && !search.isEmpty() || course != null && !course.isEmpty()) {
-            query += " AND diet = '" + diet + "'";
-          } else {
-            query += " WHERE diet = '" + diet + "'";
-          }
-        }
-        
-        ResultSet rs = stmt.executeQuery(query);
-        while (rs.next()) {        
-      %>
+  <tr>
+    <th scope="col">Dish</th>
+    <th scope="col">Quantity</th>
+    <th scope="col">Price</th>
+    <th scope="col">Total Price</th>
+  </tr>
+  <tbody>
+    <%
+    try {
+      String url = "jdbc:mysql://localhost:3306/springproject";
+      Class.forName("com.mysql.cj.jdbc.Driver");
+      Connection con = DriverManager.getConnection(url, "root", ""); 
+      String query = "SELECT * FROM cart"; 
+      String query2 = "SELECT SUM(tot_price) FROM cart";
+      Statement stmt = con.createStatement();
+      Statement stmt2 = con.createStatement();
+      ResultSet rs = stmt.executeQuery(query);
+      while (rs.next()) {        
+    %>
       <tr>
-        <td><%= rs.getString(2) %></td> <!--COL: name (dish)-->
-        <td>
-          <% int categoryId = rs.getInt(4); 
-          ResultSet rs2 = stmt2.executeQuery("SELECT * FROM categories WHERE categoryid = " + categoryId);
-          if(rs2.next()) { 
-            out.print(rs2.getString(2)); 
-          } %>
-        </td>
-        <td><%= rs.getString(9) %></td> <!--COL: Course (Category)-->
-        <td><!--COL: image (Preview)-->
-          <img src="../img/dishes/<%= rs.getString(3) %>" height="150px" width="150px" />
-        </td>
-        <td><%= rs.getString(10) %></td> <!--COL: Diet-->
-        <td style="text-align: left"><%= rs.getString(8) %></td> <!--COL: Description-->
-        <td><%= rs.getInt(7) %></td> <!--COL: Weight (Calories)-->
-        <td><%= rs.getInt(6) %></td> <!--COL: Price -->
-        <td>
-<<<<<<< HEAD
-        <form action="/buy" method="get">
-        
-          <input type="hidden" name="id" value="<%=rs.getInt(1)%>" />
-=======
-        <form action="cartentry" method="post">
-          <input type="hidden" name="id" id="id" value="<%=rs.getInt(1)%>" />
-          <input type="hidden" name="dish" id="dish" value="<%=rs.getString(2)%>" />
-          <input type="hidden" name="price" id="price" value="<%= rs.getInt(6) %>"/>
-          <input type="number" name="quantity" id="quantity" value="1" min="1" max="10" />
->>>>>>> final
-          <input type="submit" value="Add to Cart" class="btn btn-info btn" />
-        </form>
-      </td>
-    </tr>
-    <% } %>
+          <td><%= rs.getString(2) %></td> <!--COL: name (dish)-->
+          <td><%= rs.getInt(3) %></td> <!--COL: Price -->
+          <td><%= rs.getInt(4) %></td> <!--COL: Quantity -->
+          <td><%= rs.getInt(5) %></td> <!--COL: Total Price -->
+          
+          <td>
+              <form action="deleteCart" method="post">
+                  <input type="hidden" name="id" value="<%= rs.getInt(1) %>">
+                  <button type="submit" class="btn btn-danger" style="background-color:red">Delete</button>
+              </form>
+          </td>
+      </tr> 
+      
+      <% } %>     
   </tbody>
 </table>
+
+<table class="table" style="border-top: 2px solid #dee2e6;">
+<tfoot>
+  <%
+  try{
+  ResultSet rs2 = stmt2.executeQuery(query2);
+  while (rs2.next()) {
+  %>
+  <tr>
+    <th>Total</th>
+    <td><%= rs2.getInt(1) %></td>
+  </td>
+  </tr>
+
+  <% } %>  
+  <% } catch (Exception ex) { out.println("Exception Occurred:: " +
+  ex.getMessage()); } %>
+
+  
+</tfoot>
+</table>
+
+</div>
+ 
+<div class="container">
+  
+        <%
+  try{
+ 
+  ResultSet rs2 = stmt2.executeQuery(query2);
+  while (rs2.next()) {
+  %>
+        <form action="/orders" method="post">
+                <input  type="hidden"
+                       class="form-control" name="totalAmount" id="totalAmount" aria-describedby="helpId"
+                       placeholder="100" value="<%= rs2.getInt(1) %>">
+            <button class="btn btn-warning" type="submit">PayPal Checkout</button>
+        </form>
+        
+  <% } %>  
+  <% } catch (Exception ex) { out.println("Exception Occurred:: " +
+  ex.getMessage()); } %>
 <% } catch (Exception ex) { out.println("Exception Occurred:: " +
 ex.getMessage()); } %>
+
 </div>
-<<<<<<< HEAD
-<!-- <div class="row">
-   <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" data-aos="zoom-in-down">
-                            <div class="card">
-                                <a class="img-card">
-                                   
-                                </a>
-                                <div class="card-content">
-                                    <h4 class="card-title">
-                                        Best deal's
-                                    </h4>
-                                    <p class="">
-                                       Checkout out our products
-                                        <br>
-                                    </p>
-                                </div>
-                                <div class="card-read-more">
-                                    <a href="/user/products" class="btn btn-link btn-block">
-                                        GO
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" data-aos="zoom-in-down">
-                            <div class="card">
-                                <a class="img-card">
-
-                                </a>
-                                <div class="card-content">
-                                    <h4 class="card-title">
-                                        Contact us
-                                    </h4>
-                                    <p class="">
-                                      find us.
-                                        <br>
-                                    </p>
-                                </div>
-                                <div class="card-read-more">
-                                    <a href="/contact" class="btn btn-link btn-block">
-                                        Contact
-                                    </a>
-                                </div>
-                            </div>
-                        </div> -->
-
-=======
->>>>>>> final
-	<style>
+ 
+  
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@200;300&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Arimo&display=swap');

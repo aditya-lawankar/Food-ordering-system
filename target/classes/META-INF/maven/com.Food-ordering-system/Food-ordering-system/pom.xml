@@ -23,16 +23,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-<<<<<<< HEAD
-
-=======
 	<dependency>
    <groupId>org.projectlombok</groupId>
    <artifactId>lombok</artifactId>
    <version>1.18.22</version>
    <scope>provided</scope>
 </dependency>
->>>>>>> final
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -52,8 +48,6 @@
 			<artifactId>jstl</artifactId>
 		</dependency>
 
-<<<<<<< HEAD
-=======
 		<dependency>
 	    <groupId>com.paypal.sdk</groupId>
 	    <artifactId>checkout-sdk</artifactId>
@@ -66,7 +60,6 @@
 	    <version>1.14.0</version>
 		</dependency>
 
->>>>>>> final
 
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
