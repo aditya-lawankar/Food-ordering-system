@@ -76,7 +76,7 @@ import="java.text.*"%>
             <td><%= rs.getInt(1) %></td>
             <td><%= rs.getString(2) %></td>
             <td><%= rs.getString(6) %></td>
-            <td><%= rs.getString(5) %></td>
+            <td><%= rs.getString("address") %></td>
           </tr>
           <% } %>
         </tbody>

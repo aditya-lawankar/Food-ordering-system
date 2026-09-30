@@ -63,9 +63,7 @@
             <input
               type="password"
               class="form-control form-control-lg"
-              required
-              placeholder="Password*"
-              value="${password}"
+              placeholder="New password (leave blank to keep current)"
               name="password"
               id="password"
               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*?[~`!@#$%\^&*()\-_=+[\]{};:\x27.,\x22\\|/?><]).{8,}"

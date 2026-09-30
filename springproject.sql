@@ -110,7 +110,8 @@ CREATE TABLE `users` (
   `password` varchar(64) NOT NULL,
   `role` varchar(250) NOT NULL DEFAULT 'ROLE_USERS',
   `enabled` tinyint(4) DEFAULT NULL,
-  `email` varchar(110) NOT NULL
+  `email` varchar(110) NOT NULL,
+  `address` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -129,13 +130,11 @@ CREATE TABLE `cart`(
 
 --
 -- Dumping data for table `users`
+-- Passwords are stored as BCrypt hashes. The demo account's password is demo1234.
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `enabled`, `email`) VALUES
-(1, 'jay', '123', 'ROLE_USER', 1, 'gajerajay9@gmail.com'),
-(2, 'admin', '123', 'ROLE_ADMIN', 1, 'admin@email.com'),
-(3, 'aditya', 'Qwerty@123', 'ROLE_USERS', 1, 'aditya@gmail.com'),
-(4,'aarav','happyhappyhappy','ROLE_USERS',1,'aaravbabu2002@gmail.com');
+(1, 'demo', '$2a$10$tq9Epb8jo2M7HuGfifaCC.sjJfYTdtJr9Ci3qjPP0RVGmJk2fCSs6', 'ROLE_USER', 1, 'demo@example.com');
 
 --
 -- Indexes for dumped tables

@@ -2,16 +2,16 @@ package com.jtspringproject.JtSpringProject.controller;
 
 import java.sql.*;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import com.mysql.cj.protocol.Resultset;
 
 @Controller
 public class AdminController {
 	int adminlogcheck = 0;
 	String usernameforclass = "";
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	@RequestMapping(value = { "/", "/logout" })
 	public String returnIndex() {
@@ -44,11 +44,11 @@ public class AdminController {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
-			Statement stmt = con.createStatement();
 			Statement stmt2 = con.createStatement();
-			ResultSet rst = stmt.executeQuery(
-					"select * from users where username = '" + username + "' and password = '" + pass + "' ;");
-			if (rst.next()) {
+			PreparedStatement pst = con.prepareStatement("select * from users where username = ?;");
+			pst.setString(1, username);
+			ResultSet rst = pst.executeQuery();
+			if (rst.next() && passwordEncoder.matches(pass, rst.getString("password"))) {
 				usernameforclass = rst.getString(2);
 				stmt2.executeUpdate("delete from cart");
 				return "redirect:/index";
@@ -267,8 +267,9 @@ public class AdminController {
 
 		try {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from categories where name = '" + catid + "';");
+			PreparedStatement categoryQuery = con.prepareStatement("select * from categories where name = ?;");
+			categoryQuery.setString(1, catid);
+			ResultSet rs = categoryQuery.executeQuery();
 			if (rs.next()) {
 				int categoryid = rs.getInt(1);
 
@@ -298,23 +299,22 @@ public class AdminController {
 
 	@GetMapping("profileDisplay")
 	public String profileDisplay(Model model) {
-		String displayusername, displaypassword, displayemail, displayaddress;
+		String displayusername, displayemail, displayaddress;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
-			Statement stmt = con.createStatement();
-			ResultSet rst = stmt.executeQuery("select * from users where username = '" + usernameforclass + "';");
+			PreparedStatement pst = con.prepareStatement("select * from users where username = ?;");
+			pst.setString(1, usernameforclass);
+			ResultSet rst = pst.executeQuery();
 
 			if (rst.next()) {
-				int userid = rst.getInt(1);
-				displayusername = rst.getString(2);
-				displayemail = rst.getString(3);
-				displaypassword = rst.getString(4);
-				displayaddress = rst.getString(5);
+				int userid = rst.getInt("user_id");
+				displayusername = rst.getString("username");
+				displayemail = rst.getString("email");
+				displayaddress = rst.getString("address");
 				model.addAttribute("userid", userid);
 				model.addAttribute("username", displayusername);
 				model.addAttribute("email", displayemail);
-				model.addAttribute("password", displaypassword);
 				model.addAttribute("address", displayaddress);
 			}
 		} catch (Exception e) {
@@ -326,23 +326,22 @@ public class AdminController {
 
 	@GetMapping("user/profileDisplay")
 	public String profileDisplay1(Model model) {
-		String displayusername, displaypassword, displayemail, displayaddress;
+		String displayusername, displayemail, displayaddress;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
-			Statement stmt = con.createStatement();
-			ResultSet rst = stmt.executeQuery("select * from users where username = '" + usernameforclass + "';");
+			PreparedStatement pst = con.prepareStatement("select * from users where username = ?;");
+			pst.setString(1, usernameforclass);
+			ResultSet rst = pst.executeQuery();
 
 			if (rst.next()) {
-				int userid = rst.getInt(1);
-				displayusername = rst.getString(2);
-				displayemail = rst.getString(3);
-				displaypassword = rst.getString(4);
-				displayaddress = rst.getString(5);
+				int userid = rst.getInt("user_id");
+				displayusername = rst.getString("username");
+				displayemail = rst.getString("email");
+				displayaddress = rst.getString("address");
 				model.addAttribute("userid", userid);
 				model.addAttribute("username", displayusername);
 				model.addAttribute("email", displayemail);
-				model.addAttribute("password", displaypassword);
 				model.addAttribute("address", displayaddress);
 			}
 		} catch (Exception e) {
@@ -362,13 +361,23 @@ public class AdminController {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 
-			PreparedStatement pst = con
-					.prepareStatement("update users set username= ?,email = ?,password= ?, address= ? where uid = ?;");
-			pst.setString(1, username);
-			pst.setString(2, email);
-			pst.setString(3, password);
-			pst.setString(4, address);
-			pst.setInt(5, userid);
+			PreparedStatement pst;
+			if (password.isEmpty()) {
+				// A blank password field keeps the current password.
+				pst = con.prepareStatement("update users set username= ?,email = ?, address= ? where user_id = ?;");
+				pst.setString(1, username);
+				pst.setString(2, email);
+				pst.setString(3, address);
+				pst.setInt(4, userid);
+			} else {
+				pst = con.prepareStatement(
+						"update users set username= ?,email = ?,password= ?, address= ? where user_id = ?;");
+				pst.setString(1, username);
+				pst.setString(2, email);
+				pst.setString(3, passwordEncoder.encode(password));
+				pst.setString(4, address);
+				pst.setInt(5, userid);
+			}
 			int i = pst.executeUpdate();
 			usernameforclass = username;
 		} catch (Exception e) {

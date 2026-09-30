@@ -1,0 +1,12 @@
+target/
+bin/
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE files
+.classpath
+.project
+.settings/
+.factorypath
+.idea/
+*.iml
+.vscode/

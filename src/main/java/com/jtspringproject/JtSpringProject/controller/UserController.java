@@ -5,12 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
+
+	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	private static UserController instance = null;
 
@@ -120,7 +123,7 @@ public class UserController {
 			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/springproject", "root", "");
 			PreparedStatement pst = con.prepareStatement("insert into users(username,password,email) values(?,?,?);");
 			pst.setString(1, username);
-			pst.setString(2, password);
+			pst.setString(2, passwordEncoder.encode(password));
 			pst.setString(3, email);
 
 			// pst.setString(4, address);
